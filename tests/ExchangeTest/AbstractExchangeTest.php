@@ -56,7 +56,7 @@ class AbstractExchangeTest extends \PHPUnit_Framework_TestCase
          */
         $channel = $this->prophesize(AMQPChannel::class);
         $channel
-            ->exchange_declare($this->name, '', false, true, false)
+            ->exchange_declare($this->name, null, false, true, false)
             ->shouldBeCalled();
 
         $this->client->getChannel()->willReturn($channel);
