@@ -23,6 +23,7 @@ install:
   - composer install
 
 before_cript:
+  - mkdir -p build/coverage
 
 script:
   - ./phpunit.sh
