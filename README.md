@@ -2,6 +2,10 @@
 
 This RabbitMq adapter helps to easy connect, configure, publish and consume RabbitMq.
 
+Code information:
+
+[![Build Status](https://api.travis-ci.org/brofist-team/rabbit-mq.png?branch=master)](https://api.travis-ci.org/brofist-team/rabbit-mq)
+
 ### What is this repository for? ###
 
 * Easy connect to RabbitMq server

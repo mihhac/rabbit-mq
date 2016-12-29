@@ -1,0 +1,33 @@
+sudo: required
+
+language: php
+
+php:
+ - '7.0'
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.9.0
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get update
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - chmod +x ./phpunit.sh
+
+install:
+  - composer install
+
+before_cript:
+  - mkdir -p build/coverage
+
+script:
+  - ./phpunit.sh
+
+after_script:
+  - docker --version
+  - docker-compose --version
