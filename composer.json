@@ -1,0 +1,33 @@
+{
+  "name": "brofist/rabbit-mq",
+  "description": "RabbitMq handler",
+  "keywords": [
+    "rabbit",
+    "mq",
+    "queue"
+  ],
+  "homepage": "https://github.com/brofist-team/rabbit-mq",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mihailo Gajic",
+      "email": "finder_ausberlin@yahoo.de"
+    }
+  ],
+  "support": {
+    "wiki": "https://github.com/brofist-team/rabbit-mq/wiki",
+    "issues": "https://github.com/brofist-team/rabbit-mq/issues"
+  },
+  "require": {
+    "php": ">=7.0",
+    "php-amqplib/php-amqplib": "^2.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Brofist\\RabbitMq\\": "src/"
+    }
+  }
+}

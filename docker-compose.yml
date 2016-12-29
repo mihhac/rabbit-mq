@@ -1,0 +1,17 @@
+version: '2.1'
+services:
+  mq-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: 'brofist/mq-web:latest'
+    container_name: mq-web
+    links:
+      - 'mq:mq.brofist' #SERVICE:ALIAS
+    ports:
+      - '8888:80' #HOST:CONTAINER
+  mq:
+    image: 'rabbitmq:3-management'
+    container_name: mq
+    ports:
+      - '8889:15672'
