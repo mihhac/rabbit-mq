@@ -5,4 +5,5 @@ docker-compose build \
     && docker-compose rm -f \
     && docker-compose up -d \
     && sleep 5 \
-    && docker-compose exec mq-web ./vendor/bin/phpunit
+    && docker-compose exec mq-web ./vendor/bin/phpunit \
+    && exit
