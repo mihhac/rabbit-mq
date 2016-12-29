@@ -14,3 +14,12 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
   - docker --version
   - docker-compose --version
+
+install:
+  - travis_retry composer install --no-interaction --ignore-platform-reqs
+
+script:
+  - ./vendor/bin/phpunit --version
+  - ./phpunit.sh
+
+after_script:
