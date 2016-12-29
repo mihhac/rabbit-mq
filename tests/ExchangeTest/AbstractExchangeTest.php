@@ -49,8 +49,6 @@ class AbstractExchangeTest extends \PHPUnit_Framework_TestCase
      */
     public function canDeclareExchange()
     {
-        $this->markTestSkipped();
-
         /**
          * @var AMQPChannel | ObjectProphecy $channel
          */
