@@ -7,6 +7,7 @@ use Brofist\RabbitMq\Consumer\Consumer;
 use Brofist\RabbitMq\Consumer\ConsumerActionInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
+use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 
 class ConsumerTest extends \PHPUnit_Framework_TestCase
@@ -114,6 +115,26 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
      */
     public function canWait()
     {
-        //$this->consumer->consume($this->consumerAction->reveal(), 'foo-bar');
+        $this->channel->basic_qos(Argument::any(), Argument::any(), Argument::any())->shouldBeCalled();
+        $this->channel->basic_consume(
+            Argument::any(),
+            Argument::any(),
+            Argument::any(),
+            Argument::any(),
+            Argument::any(),
+            Argument::any(),
+            Argument::any()
+        )->shouldBeCalled();
+
+        $this->channel->wait()->will(function () {
+            $this->callbacks = [];
+        });
+
+        $channelObject = $this->channel->reveal();
+        $channelObject->callbacks[] = 'foo';
+
+        $this->client->getChannel()->willReturn($channelObject);
+
+        $this->consumer->consume($this->consumerAction->reveal(), 'foo-bar');
     }
 }
