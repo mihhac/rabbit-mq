@@ -36,11 +36,15 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
      */
     public function initialize()
     {
-        $this->client = $this->prophesize(Client::class);
-        $this->consumerAction = $this->prophesize(ConsumerActionInterface::class);
         $this->channel = $this->prophesize(AMQPChannel::class);
 
-        $this->consumer = new class($this->client->reveal()) extends Consumer {
+        $this->client = $this->prophesize(Client::class);
+        $this->client->getChannel()->willReturn($this->channel);
+
+        $this->consumerAction = $this->prophesize(ConsumerActionInterface::class);
+
+        $this->consumer = new class($this->client->reveal()) extends Consumer
+        {
             public function getConsumerAction() : ConsumerActionInterface
             {
                 return $this->consumerAction;
@@ -70,8 +74,6 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
             false,
             [$this->consumer, 'callbackMethod']
         )->shouldBeCalled();
-
-        $this->client->getChannel()->willReturn($this->channel->reveal());
 
         $this->consumer->consume($this->consumerAction->reveal(), $queue);
         $this->assertSame($this->consumerAction->reveal(), $this->consumer->getConsumerAction());
@@ -105,5 +107,13 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
 
         $this->consumer->setConsumerAction($this->consumerAction->reveal());
         $this->consumer->callbackMethod($messageObject);
+    }
+
+    /**
+     * @test
+     */
+    public function canWait()
+    {
+        //$this->consumer->consume($this->consumerAction->reveal(), 'foo-bar');
     }
 }
