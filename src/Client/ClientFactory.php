@@ -29,7 +29,16 @@ class ClientFactory
             $options['port'],
             $options['username'],
             $options['password'],
-            $options['vhost'] ?? '/'
+            $options['vhost'] ?? '/',
+            $options['insist'] ?? false,
+            $options['login_method'] ?? 'AMQPLAIN',
+            $options['login_response'] ?? null,
+            $options['locale'] ?? 'en_US',
+            $options['connection_timeout'] ?? 3.0,
+            $options['read_write_timeout'] ?? 3.0,
+            $options['context'] ?? null,
+            $options['keepalive'] ?? true,
+            $options['heartbeat'] ?? 1
         );
 
         $client = new Client($connection);

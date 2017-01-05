@@ -5,6 +5,7 @@ RUN cp /usr/bin/php7 /usr/bin/php
 RUN apk update
 RUN apk add php7-bcmath
 RUN apk add php7-xdebug
+RUN apk add php7-sockets
 RUN echo "zend_extension=xdebug.so" >> /etc/php7/conf.d/xdebug.ini
 
 ADD . /var/www/html
