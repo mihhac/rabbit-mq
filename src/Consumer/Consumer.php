@@ -31,6 +31,8 @@ class Consumer extends AbstractWorker
         while (count($channel->callbacks)) {
             $channel->wait();
         }
+
+        $this->client->closeConnection();
     }
 
     public function callbackMethod(AMQPMessage $message)

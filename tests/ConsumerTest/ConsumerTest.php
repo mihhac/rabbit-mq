@@ -76,6 +76,8 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
             [$this->consumer, 'callbackMethod']
         )->shouldBeCalled();
 
+        $this->client->closeConnection()->shouldBeCalled();
+
         $this->consumer->consume($this->consumerAction->reveal(), $queue);
         $this->assertSame($this->consumerAction->reveal(), $this->consumer->getConsumerAction());
     }
@@ -134,6 +136,7 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
         $channelObject->callbacks[] = 'foo';
 
         $this->client->getChannel()->willReturn($channelObject);
+        $this->client->closeConnection()->shouldBeCalled();
 
         $this->consumer->consume($this->consumerAction->reveal(), 'foo-bar');
     }

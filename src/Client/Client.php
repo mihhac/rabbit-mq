@@ -25,6 +25,11 @@ class Client
 
     public function __destruct()
     {
+        $this->closeConnection();
+    }
+
+    public function closeConnection()
+    {
         $this->channel->close();
         $this->connection->close();
     }
