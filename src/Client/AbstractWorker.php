@@ -10,4 +10,19 @@ abstract class AbstractWorker
     {
         $this->setClient($client);
     }
+
+    public function setPcntlAlarm($seconds = 0)
+    {
+        declare(ticks=1);
+        pcntl_signal(SIGALRM, function () {
+            throw new \Exception('connection timeout');
+        });
+
+        pcntl_alarm($seconds);
+    }
+
+    public function resetPcntlAlarm()
+    {
+        pcntl_alarm(0);
+    }
 }

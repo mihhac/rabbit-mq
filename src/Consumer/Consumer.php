@@ -16,6 +16,7 @@ class Consumer extends AbstractWorker
     {
         $this->consumerAction = $consumerAction;
         $channel = $this->getClient()->getChannel();
+        $this->setPcntlAlarm(5);
 
         $channel->basic_qos(null, 1, null);
         $channel->basic_consume(
@@ -27,6 +28,8 @@ class Consumer extends AbstractWorker
             false,
             [$this, 'callbackMethod']
         );
+
+        $this->resetPcntlAlarm();
 
         while (count($channel->callbacks)) {
             $channel->wait();
