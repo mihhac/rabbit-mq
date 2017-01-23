@@ -40,7 +40,8 @@ class Consumer extends AbstractWorker
 
     public function callbackMethod(AMQPMessage $message)
     {
-        $message->delivery_info['channel']->basic_ack($message->delivery_info['delivery_tag']);
-        $this->consumerAction->consumerActionExecute($message->getBody());
+        if ($this->consumerAction->consumerActionExecute($message->getBody())) {
+            $message->delivery_info['channel']->basic_ack($message->delivery_info['delivery_tag']);
+        }
     }
 }

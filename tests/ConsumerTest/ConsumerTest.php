@@ -85,7 +85,33 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function canExecuteCallBackMethod()
+    public function canExecuteCallBackMethodWithoutConfirmation()
+    {
+        $body = 'body';
+
+        $this->channel->basic_ack(Argument::any())->shouldNotBeCalled();
+
+        /**
+         * @var AMQPMessage | ObjectProphecy $message
+         */
+        $message = $this->prophesize(AMQPMessage::class);
+        $message->getBody()->willReturn($body);
+
+        /**
+         * @var AMQPMessage $messageObject
+         */
+        $messageObject = $message->reveal();
+
+        $this->consumerAction->consumerActionExecute($body)->willReturn(false);
+
+        $this->consumer->setConsumerAction($this->consumerAction->reveal());
+        $this->consumer->callbackMethod($messageObject);
+    }
+
+    /**
+     * @test
+     */
+    public function canExecuteCallBackMethodWithConfirmation()
     {
         $deliveryTag = 'tag';
         $body = 'body';
@@ -106,7 +132,7 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
         $messageObject->delivery_info['delivery_tag'] = $deliveryTag;
 
 
-        $this->consumerAction->consumerActionExecute($body)->shouldBeCalled();
+        $this->consumerAction->consumerActionExecute($body)->willReturn(true);
 
         $this->consumer->setConsumerAction($this->consumerAction->reveal());
         $this->consumer->callbackMethod($messageObject);
