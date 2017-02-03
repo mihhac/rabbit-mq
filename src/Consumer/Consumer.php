@@ -42,6 +42,8 @@ class Consumer extends AbstractWorker
     {
         if ($this->consumerAction->consumerActionExecute($message->getBody())) {
             $message->delivery_info['channel']->basic_ack($message->delivery_info['delivery_tag']);
+        } else {
+            $message->delivery_info['channel']->basic_reject($message->delivery_info['delivery_tag'], true);
         }
     }
 }
