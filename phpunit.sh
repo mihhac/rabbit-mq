@@ -1,22 +1,8 @@
 #!/usr/bin/env bash
 
-IMAGE_NAME=brofist/mq-web:latest
+CURRENT_DIR=$(dirname "$BASH_SOURCE")
 
-docker-compose stop \
-    && docker-compose rm -f \
-
-if [ ! -z $(docker images -q $IMAGE_NAME) ]
-then
-    echo "Removing previous image $IMAGE_NAME ..."
-    docker rmi $IMAGE_NAME
-    echo "Image $IMAGE_NAME is removed ..."
-else
-    echo "Image doesn't exist"
-fi
-
-docker-compose build \
-    && docker-compose up -d \
-    && sleep 20 \
+source "$CURRENT_DIR/scripts/setup.sh" \
     && docker-compose exec -T mq-web ./vendor/bin/phpunit \
 
-#or simply use docker exec
+#or simply use docker exec, it will forward T by default
